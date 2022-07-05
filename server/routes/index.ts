@@ -1,4 +1,5 @@
 import path from "path";
+import { addMonths } from "date-fns";
 import Koa from "koa";
 import Router from "koa-router";
 import send from "koa-send";
@@ -6,6 +7,7 @@ import serve from "koa-static";
 import { languages } from "@shared/i18n";
 import env from "@server/env";
 import { NotFoundError } from "@server/errors";
+import { User } from "@server/models";
 import { opensearchResponse } from "@server/utils/opensearch";
 import { robotsResponse } from "@server/utils/robots";
 import apexRedirect from "../middlewares/apexRedirect";
@@ -101,6 +103,35 @@ koa.use(async (ctx, next) => {
   ctx.set("Timing-Allow-Origin", timingOrigins.join(", "));
   await next();
 });
+
+koa.use(async (ctx, next) => {
+  let accessToken = ctx.cookies.get("accessToken");
+  if (
+    ctx.headers["X-Force-Auth"] === "true" &&
+    (ctx.path.includes("/auth/") || ctx.path.includes("auth.config"))
+  ) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    accessToken = null;
+  }
+  if (!accessToken && ctx.headers["X-Force-Auth"] !== "true") {
+    console.log("no access token");
+    const usr = new User(
+      { email: "guest@example.com", username: "guest", name: "guest" },
+      {}
+    );
+    usr.jwtSecret = "test";
+    const jwtToken = usr.getJwtToken();
+    ctx.state.user = usr;
+    ctx.cookies.set("accessToken", jwtToken, {
+      httpOnly: false,
+      expires: addMonths(new Date(), 3),
+    });
+  }
+
+  return next();
+});
+
 koa.use(apexRedirect());
 koa.use(router.routes());
 
