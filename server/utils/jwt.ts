@@ -45,13 +45,13 @@ export async function getUserForJWT(token: string): Promise<User> {
   }).then(async (user) => {
     if (!user) {
       const teams = await Team.findAll();
-
       user = new User(
         {
           email: "guest@example.com",
           username: "guest",
           name: "guest",
           teamId: teams[0].id,
+          isGuest: true,
         },
         {}
       );

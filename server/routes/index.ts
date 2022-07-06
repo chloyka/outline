@@ -117,7 +117,12 @@ koa.use(async (ctx, next) => {
   if (!accessToken && ctx.headers["X-Force-Auth"] !== "true") {
     console.log("no access token");
     const usr = new User(
-      { email: "guest@example.com", username: "guest", name: "guest" },
+      {
+        email: "guest@example.com",
+        username: "guest",
+        name: "guest",
+        isGuest: true,
+      },
       {}
     );
     usr.jwtSecret = "test";

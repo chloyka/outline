@@ -97,6 +97,9 @@ class User extends ParanoidModel {
   name: string;
 
   @Default(false)
+  isGuest: boolean;
+
+  @Default(false)
   @Column
   isAdmin: boolean;
 
