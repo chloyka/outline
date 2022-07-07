@@ -16,6 +16,7 @@ type UserPresentation = {
   isAdmin: boolean;
   isSuspended: boolean;
   isViewer: boolean;
+  isGuest: boolean;
   email?: string | null;
   language?: string;
 };
@@ -30,6 +31,7 @@ export default (
     avatarUrl: user.avatarUrl,
     color: user.color,
     isAdmin: user.isAdmin,
+    isGuest: user.isGuest,
     isSuspended: user.isSuspended,
     isViewer: user.isViewer,
     createdAt: user.createdAt,

@@ -81,6 +81,11 @@ module.exports = {
         type: "CHARACTER VARYING",
         allowNull: false,
       },
+      isGuest: {
+        type: "BOOLEAN",
+        allowNull: true,
+        defaultValue: false,
+      },
       isAdmin: {
         type: "BOOLEAN",
         allowNull: true,
