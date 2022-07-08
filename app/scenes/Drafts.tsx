@@ -13,6 +13,7 @@ import { Action } from "~/components/Actions";
 import Empty from "~/components/Empty";
 import Flex from "~/components/Flex";
 import Heading from "~/components/Heading";
+import HideIfGuest from "~/components/HideIfGuest";
 import InputSearchPage from "~/components/InputSearchPage";
 import PaginatedDocumentList from "~/components/PaginatedDocumentList";
 import Scene from "~/components/Scene";
@@ -85,7 +86,9 @@ class Drafts extends React.Component<Props> {
               <InputSearchPage source="drafts" label={t("Search documents")} />
             </Action>
             <Action>
-              <NewDocumentMenu />
+              <HideIfGuest>
+                <NewDocumentMenu />
+              </HideIfGuest>
             </Action>
           </>
         }

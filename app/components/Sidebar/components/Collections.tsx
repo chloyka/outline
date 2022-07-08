@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import Collection from "~/models/Collection";
 import Fade from "~/components/Fade";
 import Flex from "~/components/Flex";
+import HideIfGuest from "~/components/HideIfGuest";
 import { createCollection } from "~/actions/definitions/collections";
 import useStores from "~/hooks/useStores";
 import useToasts from "~/hooks/useToasts";
@@ -89,7 +90,9 @@ function Collections() {
           belowCollection={orderedCollections[index + 1]}
         />
       ))}
-      <SidebarAction action={createCollection} depth={0} />
+      <HideIfGuest>
+        <SidebarAction action={createCollection} depth={0} />
+      </HideIfGuest>
     </>
   );
 

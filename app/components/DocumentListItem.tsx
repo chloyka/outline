@@ -12,6 +12,7 @@ import Button from "~/components/Button";
 import DocumentMeta from "~/components/DocumentMeta";
 import EventBoundary from "~/components/EventBoundary";
 import Flex from "~/components/Flex";
+import HideIfGuest from "~/components/HideIfGuest";
 import Highlight from "~/components/Highlight";
 import NudeButton from "~/components/NudeButton";
 import StarButton, { AnimatedStar } from "~/components/Star";
@@ -133,34 +134,36 @@ function DocumentListItem(
           showLastViewed
         />
       </Content>
-      <Actions>
-        {document.isTemplate &&
-          !document.isArchived &&
-          !document.isDeleted &&
-          can.createDocument &&
-          canCollection.update && (
-            <>
-              <Button
-                as={Link}
-                to={newDocumentPath(document.collectionId, {
-                  templateId: document.id,
-                })}
-                icon={<PlusIcon />}
-                neutral
-              >
-                {t("New doc")}
-              </Button>
-              &nbsp;
-            </>
-          )}
-        <DocumentMenu
-          document={document}
-          showPin={showPin}
-          onOpen={handleMenuOpen}
-          onClose={handleMenuClose}
-          modal={false}
-        />
-      </Actions>
+      <HideIfGuest>
+        <Actions>
+          {document.isTemplate &&
+            !document.isArchived &&
+            !document.isDeleted &&
+            can.createDocument &&
+            canCollection.update && (
+              <>
+                <Button
+                  as={Link}
+                  to={newDocumentPath(document.collectionId, {
+                    templateId: document.id,
+                  })}
+                  icon={<PlusIcon />}
+                  neutral
+                >
+                  {t("New doc")}
+                </Button>
+                &nbsp;
+              </>
+            )}
+          <DocumentMenu
+            document={document}
+            showPin={showPin}
+            onOpen={handleMenuOpen}
+            onClose={handleMenuClose}
+            modal={false}
+          />
+        </Actions>
+      </HideIfGuest>
     </CompositeItem>
   );
 }

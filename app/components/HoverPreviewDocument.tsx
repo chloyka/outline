@@ -5,6 +5,7 @@ import styled from "styled-components";
 import parseDocumentSlug from "@shared/utils/parseDocumentSlug";
 import DocumentMetaWithViews from "~/components/DocumentMetaWithViews";
 import Editor from "~/components/Editor";
+import HideIfGuest from "~/components/HideIfGuest";
 import useStores from "~/hooks/useStores";
 
 type Props = {
@@ -30,10 +31,12 @@ function HoverPreviewDocument({ url, children }: Props) {
       {children(
         <Content to={document.url}>
           <Heading>{document.titleWithDefault}</Heading>
-          <DocumentMetaWithViews
-            isDraft={document.isDraft}
-            document={document}
-          />
+          <HideIfGuest>
+            <DocumentMetaWithViews
+              isDraft={document.isDraft}
+              document={document}
+            />
+          </HideIfGuest>
 
           <React.Suspense fallback={<div />}>
             <Editor

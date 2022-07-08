@@ -11,6 +11,7 @@ import parseTitle from "@shared/utils/parseTitle";
 import Star from "~/models/Star";
 import EmojiIcon from "~/components/EmojiIcon";
 import Fade from "~/components/Fade";
+import HideIfGuest from "~/components/HideIfGuest";
 import useBoolean from "~/hooks/useBoolean";
 import useStores from "~/hooks/useStores";
 import DocumentMenu from "~/menus/DocumentMenu";
@@ -138,15 +139,19 @@ function StarredLink({ star }: Props) {
             exact={false}
             showActions={menuOpen}
             menu={
-              document && !isDragging ? (
-                <Fade>
-                  <DocumentMenu
-                    document={document}
-                    onOpen={handleMenuOpen}
-                    onClose={handleMenuClose}
-                  />
-                </Fade>
-              ) : undefined
+              <HideIfGuest>
+                <>
+                  {document && !isDragging ? (
+                    <Fade>
+                      <DocumentMenu
+                        document={document}
+                        onOpen={handleMenuOpen}
+                        onClose={handleMenuClose}
+                      />
+                    </Fade>
+                  ) : undefined}
+                </>
+              </HideIfGuest>
             }
           />
         </Draggable>

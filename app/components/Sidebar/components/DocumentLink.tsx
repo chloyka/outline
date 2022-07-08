@@ -11,6 +11,7 @@ import { sortNavigationNodes } from "@shared/utils/collections";
 import Collection from "~/models/Collection";
 import Document from "~/models/Document";
 import Fade from "~/components/Fade";
+import HideIfGuest from "~/components/HideIfGuest";
 import NudeButton from "~/components/NudeButton";
 import Tooltip from "~/components/Tooltip";
 import useBoolean from "~/hooks/useBoolean";
@@ -333,32 +334,36 @@ function InnerDocumentLink(
                 isDraft={isDraft}
                 ref={ref}
                 menu={
-                  document &&
-                  !isMoving &&
-                  !isEditing &&
-                  !isDraggingAnyDocument ? (
-                    <Fade>
-                      {can.createChildDocument && (
-                        <Tooltip tooltip={t("New doc")} delay={500}>
-                          <NudeButton
-                            type={undefined}
-                            aria-label={t("New nested document")}
-                            as={Link}
-                            to={newDocumentPath(document.collectionId, {
-                              parentDocumentId: document.id,
-                            })}
-                          >
-                            <PlusIcon />
-                          </NudeButton>
-                        </Tooltip>
-                      )}
-                      <DocumentMenu
-                        document={document}
-                        onOpen={handleMenuOpen}
-                        onClose={handleMenuClose}
-                      />
-                    </Fade>
-                  ) : undefined
+                  <HideIfGuest>
+                    <>
+                      {document &&
+                      !isMoving &&
+                      !isEditing &&
+                      !isDraggingAnyDocument ? (
+                        <Fade>
+                          {can.createChildDocument && (
+                            <Tooltip tooltip={t("New doc")} delay={500}>
+                              <NudeButton
+                                type={undefined}
+                                aria-label={t("New nested document")}
+                                as={Link}
+                                to={newDocumentPath(document.collectionId, {
+                                  parentDocumentId: document.id,
+                                })}
+                              >
+                                <PlusIcon />
+                              </NudeButton>
+                            </Tooltip>
+                          )}
+                          <DocumentMenu
+                            document={document}
+                            onOpen={handleMenuOpen}
+                            onClose={handleMenuClose}
+                          />
+                        </Fade>
+                      ) : undefined}
+                    </>
+                  </HideIfGuest>
                 }
               />
             </DropToImport>

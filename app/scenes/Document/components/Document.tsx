@@ -25,6 +25,7 @@ import Branding from "~/components/Branding";
 import ConnectionStatus from "~/components/ConnectionStatus";
 import ErrorBoundary from "~/components/ErrorBoundary";
 import Flex from "~/components/Flex";
+import HideIfGuest from "~/components/HideIfGuest";
 import LoadingIndicator from "~/components/LoadingIndicator";
 import Modal from "~/components/Modal";
 import PageTitle from "~/components/PageTitle";
@@ -626,12 +627,16 @@ class DocumentScene extends React.Component<Props> {
             )}
           </Container>
         </Background>
-        {!isShare && (
+        <HideIfGuest>
           <>
-            <KeyboardShortcutsButton />
-            <ConnectionStatus />
+            {!isShare && (
+              <>
+                <KeyboardShortcutsButton />
+                <ConnectionStatus />
+              </>
+            )}
           </>
-        )}
+        </HideIfGuest>
       </ErrorBoundary>
     );
   }

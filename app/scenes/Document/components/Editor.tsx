@@ -8,6 +8,7 @@ import { RefHandle } from "~/components/ContentEditable";
 import DocumentMetaWithViews from "~/components/DocumentMetaWithViews";
 import Editor, { Props as EditorProps } from "~/components/Editor";
 import Flex from "~/components/Flex";
+import HideIfGuest from "~/components/HideIfGuest";
 import {
   documentHistoryUrl,
   documentUrl,
@@ -89,20 +90,22 @@ function DocumentEditor(props: Props, ref: React.RefObject<any>) {
         starrable={!shareId}
         placeholder={t("Untitled")}
       />
-      {!shareId && (
-        <DocumentMetaWithViews
-          isDraft={isDraft}
-          document={document}
-          to={
-            match.path === matchDocumentHistory
-              ? documentUrl(document)
-              : documentHistoryUrl(document)
-          }
-          rtl={
-            titleRef.current?.getComputedDirection() === "rtl" ? true : false
-          }
-        />
-      )}
+      <HideIfGuest>
+        <>
+          {!shareId && (
+            <DocumentMetaWithViews
+              isDraft={isDraft}
+              document={document}
+              to={
+                match.path === matchDocumentHistory
+                  ? documentUrl(document)
+                  : documentHistoryUrl(document)
+              }
+              rtl={titleRef.current?.getComputedDirection() === "rtl"}
+            />
+          )}
+        </>
+      </HideIfGuest>
       <EditorComponent
         ref={ref}
         autoFocus={!!title && !props.defaultValue}

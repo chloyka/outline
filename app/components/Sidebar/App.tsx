@@ -6,6 +6,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Flex from "~/components/Flex";
+import HideIfGuest from "~/components/HideIfGuest";
 import Scrollable from "~/components/Scrollable";
 import Text from "~/components/Text";
 import { inviteUser } from "~/actions/definitions/users";
@@ -15,6 +16,7 @@ import useStores from "~/hooks/useStores";
 import OrganizationMenu from "~/menus/OrganizationMenu";
 import {
   homePath,
+  loginPath,
   draftsPath,
   templatesPath,
   searchPath,
@@ -111,21 +113,32 @@ function AppSidebar() {
             <Section>
               {can.createDocument && (
                 <>
-                  <SidebarLink
-                    to={templatesPath()}
-                    icon={<ShapesIcon color="currentColor" />}
-                    exact={false}
-                    label={t("Templates")}
-                    active={
-                      documents.active
-                        ? documents.active.isTemplate &&
-                          !documents.active.isDeleted &&
-                          !documents.active.isArchived
-                        : undefined
-                    }
-                  />
-                  <ArchiveLink />
-                  <TrashLink />
+                  <HideIfGuest>
+                    <>
+                      <SidebarLink
+                        to={templatesPath()}
+                        icon={<ShapesIcon color="currentColor" />}
+                        exact={false}
+                        label={t("Templates")}
+                        active={
+                          documents.active
+                            ? documents.active.isTemplate &&
+                              !documents.active.isDeleted &&
+                              !documents.active.isArchived
+                            : undefined
+                        }
+                      />
+                      <ArchiveLink />
+                      <TrashLink />
+                    </>
+                  </HideIfGuest>
+                  <HideIfGuest reverse>
+                    <SidebarLink
+                      to={loginPath()}
+                      exact={false}
+                      label="Log in"
+                    />
+                  </HideIfGuest>
                 </>
               )}
               <SidebarAction action={inviteUser} />

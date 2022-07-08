@@ -6,6 +6,7 @@ import { Switch, Route } from "react-router-dom";
 import { Action } from "~/components/Actions";
 import Empty from "~/components/Empty";
 import Heading from "~/components/Heading";
+import HideIfGuest from "~/components/HideIfGuest";
 import InputSearchPage from "~/components/InputSearchPage";
 import LanguagePrompt from "~/components/LanguagePrompt";
 import PaginatedDocumentList from "~/components/PaginatedDocumentList";
@@ -42,7 +43,9 @@ function Home() {
             <InputSearchPage source="dashboard" label={t("Search documents")} />
           </Action>
           <Action>
-            <NewDocumentMenu />
+            <HideIfGuest>
+              <NewDocumentMenu />
+            </HideIfGuest>
           </Action>
         </>
       }

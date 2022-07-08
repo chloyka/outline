@@ -2,6 +2,7 @@ import * as React from "react";
 import styled, { useTheme, css } from "styled-components";
 import breakpoint from "styled-components-breakpoint";
 import EventBoundary from "~/components/EventBoundary";
+import HideIfGuest from "~/components/HideIfGuest";
 import NudeButton from "~/components/NudeButton";
 import { NavigationNode } from "~/types";
 import Disclosure from "./Disclosure";
@@ -110,7 +111,9 @@ function SidebarLink(
           <Label>{label}</Label>
         </Content>
       </Link>
-      {menu && <Actions showActions={showActions}>{menu}</Actions>}
+      <HideIfGuest>
+        <>{menu && <Actions showActions={showActions}>{menu}</Actions>}</>
+      </HideIfGuest>
     </>
   );
 }
