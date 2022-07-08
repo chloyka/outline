@@ -57,6 +57,7 @@ function Login() {
   const { config } = auth;
   const [error, setError] = React.useState(null);
   const [emailLinkSentTo, setEmailLinkSentTo] = React.useState("");
+  const isLogin = location.pathname === "/login";
   const isCreate = location.pathname === "/create";
   const handleReset = React.useCallback(() => {
     setEmailLinkSentTo("");
@@ -91,7 +92,10 @@ function Login() {
     return <Redirect to={`/collection/${auth.team?.defaultCollectionId}`} />;
   }
 
-  if (auth.authenticated) {
+  const isGuestOnRootPage = !isLogin && auth.authenticatedAsGuest;
+  const isRealUser = auth.authenticated && !auth.authenticatedAsGuest;
+
+  if (isRealUser || isGuestOnRootPage) {
     return <Redirect to="/home" />;
   }
 

@@ -1,4 +1,4 @@
-export type Role = "admin" | "viewer" | "member";
+export type Role = "admin" | "viewer" | "guest" | "member";
 
 export type DateFilter = "day" | "week" | "month" | "year";
 

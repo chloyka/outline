@@ -32,7 +32,7 @@ import TrashLink from "./components/TrashLink";
 
 function AppSidebar() {
   const { t } = useTranslation();
-  const { documents } = useStores();
+  const { auth, documents } = useStores();
   const team = useCurrentTeam();
   const can = usePolicy(team.id);
 
@@ -54,23 +54,25 @@ function AppSidebar() {
     <Sidebar ref={handleSidebarRef}>
       {dndArea && (
         <DndProvider backend={HTML5Backend} options={html5Options}>
-          <OrganizationMenu>
-            {(props: SidebarButtonProps) => (
-              <SidebarButton
-                {...props}
-                title={team.name}
-                image={
-                  <StyledTeamLogo
-                    src={team.avatarUrl}
-                    width={32}
-                    height={32}
-                    alt={t("Logo")}
-                  />
-                }
-                showDisclosure
-              />
-            )}
-          </OrganizationMenu>
+          {!auth.authenticatedAsGuest && (
+            <OrganizationMenu>
+              {(props: SidebarButtonProps) => (
+                <SidebarButton
+                  {...props}
+                  title={team.name}
+                  image={
+                    <StyledTeamLogo
+                      src={team.avatarUrl}
+                      width={32}
+                      height={32}
+                      alt={t("Logo")}
+                    />
+                  }
+                  showDisclosure
+                />
+              )}
+            </OrganizationMenu>
+          )}
           <Scrollable flex shadow>
             <Section>
               <SidebarLink

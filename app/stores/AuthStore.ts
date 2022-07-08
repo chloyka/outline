@@ -126,6 +126,11 @@ export default class AuthStore {
   }
 
   @computed
+  get authenticatedAsGuest(): boolean {
+    return !!this.token && !!this.user?.isGuest;
+  }
+
+  @computed
   get asJson() {
     return {
       user: this.user,

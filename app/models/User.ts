@@ -28,6 +28,8 @@ class User extends ParanoidModel {
 
   isAdmin: boolean;
 
+  isGuest: boolean;
+
   isViewer: boolean;
 
   lastActiveAt: string;
@@ -41,12 +43,15 @@ class User extends ParanoidModel {
 
   @computed
   get role(): Role {
-    if (this.isAdmin) {
-      return "admin";
-    } else if (this.isViewer) {
-      return "viewer";
-    } else {
-      return "member";
+    switch (true) {
+      case this.isAdmin:
+        return "admin";
+      case this.isViewer:
+        return "viewer";
+      case this.isGuest:
+        return "guest";
+      default:
+        return "member";
     }
   }
 }

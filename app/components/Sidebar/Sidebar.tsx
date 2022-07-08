@@ -168,7 +168,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
           )}
           {children}
 
-          {user && (
+          {user && !auth.authenticatedAsGuest && (
             <AccountMenu>
               {(props: SidebarButtonProps) => (
                 <SidebarButton

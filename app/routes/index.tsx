@@ -52,6 +52,7 @@ export default function Routes() {
     >
       <Switch>
         <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/create" component={Login} />
         <Route exact path="/logout" component={Logout} />
 
