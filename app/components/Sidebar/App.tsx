@@ -89,20 +89,24 @@ function AppSidebar() {
                 label={t("Search")}
                 exact={false}
               />
-              {can.createDocument && (
-                <SidebarLink
-                  to={draftsPath()}
-                  icon={<EditIcon color="currentColor" />}
-                  label={
-                    <Flex align="center" justify="space-between">
-                      {t("Drafts")}
-                      <Drafts size="xsmall" type="tertiary">
-                        {documents.totalDrafts}
-                      </Drafts>
-                    </Flex>
-                  }
-                />
-              )}
+              <HideIfGuest>
+                <>
+                  {can.createDocument && (
+                    <SidebarLink
+                      to={draftsPath()}
+                      icon={<EditIcon color="currentColor" />}
+                      label={
+                        <Flex align="center" justify="space-between">
+                          {t("Drafts")}
+                          <Drafts size="xsmall" type="tertiary">
+                            {documents.totalDrafts}
+                          </Drafts>
+                        </Flex>
+                      }
+                    />
+                  )}
+                </>
+              </HideIfGuest>
             </Section>
             <Section>
               <Starred />

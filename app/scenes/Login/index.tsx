@@ -1,13 +1,11 @@
 import { find } from "lodash";
 import { observer } from "mobx-react";
-import { BackIcon, EmailIcon } from "outline-icons";
+import { EmailIcon } from "outline-icons";
 import * as React from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation, Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import { getCookie, setCookie } from "tiny-cookie";
-import { parseDomain } from "@shared/utils/domains";
-import { Config } from "~/stores/AuthStore";
 import ButtonLarge from "~/components/ButtonLarge";
 import Fade from "~/components/Fade";
 import Flex from "~/components/Flex";
@@ -25,29 +23,6 @@ import isCloudHosted from "~/utils/isCloudHosted";
 import { changeLanguage, detectLanguage } from "~/utils/language";
 import AuthenticationProvider from "./AuthenticationProvider";
 import Notices from "./Notices";
-
-function Header({ config }: { config?: Config | undefined }) {
-  const { t } = useTranslation();
-  const isSubdomain = !!config?.hostname;
-
-  if (!isCloudHosted || parseDomain(window.location.origin).custom) {
-    return null;
-  }
-
-  if (isSubdomain) {
-    return (
-      <Back href={env.URL}>
-        <BackIcon color="currentColor" /> {t("Back to home")}
-      </Back>
-    );
-  }
-
-  return (
-    <Back href="https://www.getoutline.com">
-      <BackIcon color="currentColor" /> {t("Back to website")}
-    </Back>
-  );
-}
 
 function Login() {
   const location = useLocation();
@@ -102,7 +77,6 @@ function Login() {
   if (error) {
     return (
       <Background>
-        <Header />
         <Centered align="center" justify="center" column auto>
           <PageTitle title={t("Login")} />
           <NoticeAlert>
@@ -135,7 +109,6 @@ function Login() {
   if (emailLinkSentTo) {
     return (
       <Background>
-        <Header config={config} />
         <Centered align="center" justify="center" column auto>
           <PageTitle title={t("Check your email")} />
           <CheckEmailIcon size={38} color="currentColor" />
@@ -158,7 +131,6 @@ function Login() {
 
   return (
     <Background>
-      <Header config={config} />
       <Centered align="center" justify="center" gap={12} column auto>
         <PageTitle title={t("Login")} />
         <Logo>
@@ -261,25 +233,6 @@ const Note = styled(Text)`
   em {
     font-style: normal;
     font-weight: 500;
-  }
-`;
-
-const Back = styled.a`
-  display: flex;
-  align-items: center;
-  color: inherit;
-  padding: 32px;
-  font-weight: 500;
-  position: absolute;
-
-  svg {
-    transition: transform 100ms ease-in-out;
-  }
-
-  &:hover {
-    svg {
-      transform: translateX(-4px);
-    }
   }
 `;
 
