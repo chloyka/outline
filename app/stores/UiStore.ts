@@ -88,7 +88,7 @@ class UiStore {
     }
 
     // persisted keys
-    this.languagePromptDismissed = data.languagePromptDismissed;
+    this.languagePromptDismissed = true;
     this.sidebarCollapsed = !!data.sidebarCollapsed;
     this.sidebarWidth = data.sidebarWidth || defaultTheme.sidebarWidth;
     this.tocVisible = !!data.tocVisible;
